@@ -1,6 +1,10 @@
 FROM nvidia/cudagl:11.4.2-base-ubuntu20.04
 ENV DEBIAN_FRONTEND=noninteractive 
 ENV LANG C.UTF-8
+
+# ==================================================================
+# tools
+# ------------------------------------------------------------------
 RUN apt-get update \
  && apt-get dist-upgrade -y \
  && apt-get install -y \
@@ -12,6 +16,8 @@ RUN apt-get update \
  zip \
  unzip \
  make \
+ cmake \
+ libeigen3-dev \
  gcc-8 \
  g++-8 \
  vulkan-utils \
@@ -27,6 +33,8 @@ RUN apt-get update \
  libpython3.8-dev
 ENV CXX=/usr/bin/g++-8
 ENV CC=/usr/bin/gcc-8
+
+RUN pip3 install numpy
 
 # ==================================================================
 # vulkan
@@ -51,15 +59,13 @@ RUN mkdir -p $WORKSPACE
 RUN mkdir -p $LOCAL_INSTALL
 
 # ==================================================================
-# tools
-# ------------------------------------------------------------------
-RUN apt-get install -y cmake libeigen3-dev
-
-# ==================================================================
 # raisim
 # ------------------------------------------------------------------
 COPY . $WORKSPACE/raisimLib
+RUN cd /root && mkdir .raisim && cd .raisim && cp $WORKSPACE/raisimLib/license/activation.raisim .
+RUN cd /home && mkdir .raisim && cd .raisim && cp $WORKSPACE/raisimLib/license/activation.raisim .
 RUN /bin/bash --login -c "cd $WORKSPACE/raisimLib && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=$LOCAL_INSTALL -DRAISIM_EXAMPLE=ON -DRAISIM_PY=ON -DPYTHON_EXECUTABLE=$(python3 -c "import sys; print(sys.executable)") && make install -j4"
+
 
 # ==================================================================
 # add ld path
