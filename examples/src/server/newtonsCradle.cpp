@@ -3,13 +3,9 @@
 
 #include "raisim/World.hpp"
 #include "raisim/RaisimServer.hpp"
-#if WIN32
-#include <timeapi.h>
-#endif
 
 int main(int argc, char **argv) {
   auto binaryPath = raisim::Path::setFromArgv(argv[0]);
-  raisim::World::setActivationKey(binaryPath.getDirectory() + "\\rsc\\activation.raisim");
 
   /// create raisim world
   raisim::World world;
@@ -93,7 +89,9 @@ int main(int argc, char **argv) {
   auto box = world.addBox(.1, .1, .1, 1);
   box->setPosition(0.9, 0.0, 4.2);
 
-  world.addStiffWire(pin1, 0, {0,0,0}, ball1, 0, {0,0,0}, 2.0);
+  auto wire1 = world.addStiffWire(pin1, 0, {0,0,0}, ball1, 0, {0,0,0}, 2.0);
+  wire1->setVisualizationWidth(0.05);
+  wire1->setColor({1, 0, 0, 1});
   world.addStiffWire(pin2, 0, {0,0,0}, ball2, 0, {0,0,0}, 2.0);
   world.addStiffWire(pin3, 0, {0,0,0}, ball3, 0, {0,0,0}, 2.0);
   world.addStiffWire(pin4, 0, {0,0,0}, ball4, 0, {0,0,0}, 2.0);
@@ -114,10 +112,12 @@ int main(int argc, char **argv) {
   world.exportToXml(binaryPath.getDirectory(), "exportedWorld.xml");
 
   for (int i=0; i< 5000000; i++) {
-    raisim::MSLEEP(1);
-    server.integrateWorldThreadSafe();
+    RS_TIMED_LOOP(int(world.getTimeStep()*1e6))
+    if (server.isConnected()) {
+      server.integrateWorldThreadSafe();
+    }
 
-    if(i==5000)
+    if (i == 5000)
       world.removeObject(wire7);
   }
 

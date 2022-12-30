@@ -3,13 +3,9 @@
 
 #include "raisim/RaisimServer.hpp"
 #include "raisim/World.hpp"
-#if WIN32
-#include <timeapi.h>
-#endif
 
 int main(int argc, char* argv[]) {
   auto binaryPath = raisim::Path::setFromArgv(argv[0]);
-  raisim::World::setActivationKey(binaryPath.getDirectory() + "\\rsc\\activation.raisim");
 
   /// create raisim world
   raisim::World world;
@@ -31,7 +27,7 @@ int main(int argc, char* argv[]) {
   server.focusOn(cartPole);
 
   for (int i=0; i<200000; i++) {
-    raisim::MSLEEP(1);
+    RS_TIMED_LOOP(int(world.getTimeStep()*1e6))
     server.integrateWorldThreadSafe();
   }
 

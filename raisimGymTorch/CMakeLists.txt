@@ -24,7 +24,7 @@ ENDMACRO()
 ####################
 set(Dependencies)
 
-add_subdirectory(../thirdParty/pybind11 pybind11)
+add_subdirectory(thirdParty/pybind11 pybind11)
 find_package(Eigen3 CONFIG REQUIRED)
 
 if (APPLE)
@@ -59,7 +59,7 @@ elseif(APPLE)
     list(APPEND CMAKE_PREFIX_PATH ../raisim/${RAISIM_OS})
 elseif(WIN32)
     set(RAISIM_OS win32)
-    list(APPEND CMAKE_PREFIX_PATH ../raisim/${RAISIM_OS}/mt_release)
+    list(APPEND CMAKE_PREFIX_PATH ../raisim/${RAISIM_OS})
     list(APPEND CMAKE_PREFIX_PATH ../thirdParty)
     list(APPEND Dependencies Ws2_32)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_SOURCE_DIR}/raisimGymTorch/env/bin)
