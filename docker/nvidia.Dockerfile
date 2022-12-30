@@ -1,10 +1,7 @@
 FROM nvidia/cudagl:11.4.2-base-ubuntu20.04
+# FROM pytorch/pytorch:latest
 ENV DEBIAN_FRONTEND=noninteractive 
 ENV LANG C.UTF-8
-
-# ==================================================================
-# tools
-# ------------------------------------------------------------------
 RUN apt-get update \
  && apt-get dist-upgrade -y \
  && apt-get install -y \
@@ -16,8 +13,6 @@ RUN apt-get update \
  zip \
  unzip \
  make \
- cmake \
- libeigen3-dev \
  gcc-8 \
  g++-8 \
  vulkan-utils \
@@ -33,8 +28,6 @@ RUN apt-get update \
  libpython3.8-dev
 ENV CXX=/usr/bin/g++-8
 ENV CC=/usr/bin/gcc-8
-
-RUN pip3 install numpy
 
 # ==================================================================
 # vulkan
@@ -59,19 +52,27 @@ RUN mkdir -p $WORKSPACE
 RUN mkdir -p $LOCAL_INSTALL
 
 # ==================================================================
+# tools
+# ------------------------------------------------------------------
+RUN apt-get install -y cmake libeigen3-dev
+RUN pip install torch
+
+# ==================================================================
 # raisim
 # ------------------------------------------------------------------
 COPY . $WORKSPACE/raisimLib
-RUN cd /root && mkdir .raisim && cd .raisim && cp $WORKSPACE/raisimLib/license/activation.raisim .
-RUN cd /home && mkdir .raisim && cd .raisim && cp $WORKSPACE/raisimLib/license/activation.raisim .
-RUN /bin/bash --login -c "cd $WORKSPACE/raisimLib && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=$LOCAL_INSTALL -DRAISIM_EXAMPLE=ON -DRAISIM_PY=ON -DPYTHON_EXECUTABLE=$(python3 -c "import sys; print(sys.executable)") && make install -j4"
+RUN /bin/bash --login -c "cd $WORKSPACE/raisimLib && mkdir build && cd build && cmake .. -DCMAKE_INSTALL_PREFIX=$LOCAL_INSTALL -DRAISIM_EXAMPLE=ON -DRAISIM_PY=ON && make install -j4"
 
+# ==================================================================
+# license
+# ------------------------------------------------------------------
+# COPY ./license/activation.raisim /root/raisim/
 
 # ==================================================================
 # add ld path
 # ------------------------------------------------------------------
-ENV LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$LOCAL_INSTALL/lib"
-ENV PYTHONPATH="$LOCAL_INSTALL/lib"
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$WORKSPACE/raisimLib/raisim/linux/lib
+ENV PYTHONPATH=$PYTHONPATH:$WORKSPACE/raisimLib/raisim/linux/lib
 
 # ==================================================================
 # display

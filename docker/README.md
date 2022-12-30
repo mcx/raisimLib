@@ -19,9 +19,13 @@ docker/run_nvidia.bash
 ```
 
 ## Test
-TODO
+
+### RaisimGymTorch
+From https://raisim.com/sections/RaisimGymTorch.html
 ```
-python3
+cd ~/raisim_workspace/raisimLib/raisimGymTorch/
+python3 setup.py develop
+python3 raisimGymTorch/env/envs/rsg_anymal/runner.py
 ```
 
 ## Docker
