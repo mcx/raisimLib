@@ -55,7 +55,7 @@ RUN mkdir -p $LOCAL_INSTALL
 # tools
 # ------------------------------------------------------------------
 RUN apt-get install -y cmake libeigen3-dev
-RUN pip install torch
+RUN pip install torch numpy==1.23.1
 
 # ==================================================================
 # raisim
@@ -66,7 +66,7 @@ RUN /bin/bash --login -c "cd $WORKSPACE/raisimLib && mkdir build && cd build && 
 # ==================================================================
 # license
 # ------------------------------------------------------------------
-# COPY ./license/activation.raisim /root/raisim/
+COPY ./license/activation.raisim /root/raisim/
 
 # ==================================================================
 # add ld path

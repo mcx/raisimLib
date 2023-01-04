@@ -20,6 +20,13 @@ docker/run_nvidia.bash
 
 ## Test
 
+### RaisimUnity
+From https://raisim.com/sections/RaisimUnity.html
+```
+cd ~/raisim_workspace/raisimLib/raisimUnity/linux
+./raisimUnity.x86_64
+```
+
 ### RaisimGymTorch
 From https://raisim.com/sections/RaisimGymTorch.html
 ```
