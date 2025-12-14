@@ -50,6 +50,8 @@ struct PolyLine {
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
 
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
 
  protected:
   uint32_t visualTag = 0;
@@ -94,6 +96,8 @@ struct ArticulatedSystemVisual {
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
 
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
 
   raisim::Vec<4> color;
   ArticulatedSystem obj;
@@ -202,6 +206,8 @@ struct Visuals {
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
 
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
 
  private:
   Vec<3> position = {0, 0, 0};
@@ -297,6 +303,8 @@ struct HeightMapVisual {
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
 
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
 
   raisim::Vec<4> color;
   raisim::HeightMap obj;
@@ -452,6 +460,8 @@ struct InstancedVisuals {
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
 
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
 
  protected:
   struct PerInstanceData {
@@ -499,6 +509,9 @@ struct PointCloud {
    */
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
+
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
 
   /**
    * resize both position and color
