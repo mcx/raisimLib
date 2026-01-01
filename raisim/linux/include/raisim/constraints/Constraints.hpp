@@ -30,6 +30,9 @@ class Constraints {
     void unlockMutex() { mutex_.unlock(); }
     void unlock() { mutex_.unlock(); } // this is for RAII compatibility
 
+    /* try lock method for RAII compatibility */
+    bool try_lock() { return mutex_.try_lock(); }
+
  protected:
   std::string name_;
   Vec<4> color_;

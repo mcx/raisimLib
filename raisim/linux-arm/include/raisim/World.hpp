@@ -689,16 +689,19 @@ class World {
     return mat_.getMaterialPairProp(mat1, mat2); }
 
   /**
-   * locks chart mutex. This can be used if you use raisim in a multi-threaded environment.
+   * locks mutex. This can be used if you use raisim in a multi-threaded environment.
    */
   void lockMutex() { mutex_.lock(); }
   void lock() { mutex_.lock(); } // this is for RAII compatibility
 
   /**
-   * unlock chart mutex. This can be used if you use raisim in a multi-threaded environment.
+   * unlock mutex. This can be used if you use raisim in a multi-threaded environment.
    */
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
+
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
 
 protected:
   void init();

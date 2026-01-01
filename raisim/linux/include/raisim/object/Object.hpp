@@ -130,6 +130,9 @@ class Object {
   void unlockMutex() { mutex_.unlock(); }
   void unlock() { mutex_.unlock(); } // this is for RAII compatibility
 
+  /* try lock method for RAII compatibility */
+  bool try_lock() { return mutex_.try_lock(); }
+
  protected:
   double &getImpactVel(size_t idx);
   virtual void destroyCollisionBodies(dSpaceID id) = 0;
