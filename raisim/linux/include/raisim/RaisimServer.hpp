@@ -426,11 +426,11 @@ class RaisimServer final {
 
   /**
    *
-   * @param name
-   * @param type
-   * @param size
-   * @param color1
-   * @param color2
+   * @param name name of the instanced visual
+   * @param type shape type
+   * @param size size parameters for the shape type
+   * @param color1 First color (the two colors will be blended)
+   * @param color2 Second color
    * @return
    */
   inline InstancedVisuals *addInstancedVisuals(const std::string &name,
@@ -442,6 +442,17 @@ class RaisimServer final {
     updateVisualConfig();
     instancedvisuals_[name] = new InstancedVisuals(type, name, size, color1, color2);
     return instancedvisuals_[name];
+  }
+
+  /**
+   * @param[in] name the name of the visual object to be removed
+   * remove an existing visual object */
+  inline void removeInstancedVisualObject(const std::string &name) {
+    if (instancedvisuals_.find(name) == instancedvisuals_.end()) RSFATAL(
+        "Visual object with name \"" + name + "\" doesn't exist.")
+    updateVisualConfig();
+    delete instancedvisuals_[name];
+    instancedvisuals_.erase(name);
   }
 
   /**
