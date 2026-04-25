@@ -1,4 +1,4 @@
-We no longer support Raisim. Please go to Raisim2 repo
+We no longer support Raisim. Please go to Raisim2 repo: https://github.com/raisimTech/raisim2Lib
 
 
 # RaiSim
