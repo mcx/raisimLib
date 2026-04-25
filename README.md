@@ -1,3 +1,6 @@
+We no longer support Raisim. Please go to Raisim2 repo
+
+
 # RaiSim
 
 RaiSim is a physics engine for robotics and artificial intelligence research that provides efficient and accurate simulations for robotic systems. We specialize in running rigid-body simulations while having an accessible, easy to use C++ library.
